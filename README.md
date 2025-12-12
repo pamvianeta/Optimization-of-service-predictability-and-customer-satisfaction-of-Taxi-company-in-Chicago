@@ -45,6 +45,6 @@ Based on the data-driven evidence, the following recommendations are proposed:
 - Environment: Jupyter Notebooks.Version Control: Git, GitHub.
 
 ## Files in this Repository
-- extraction.txt: contains the code for table extraction from URL.
+- extraction.py: contains the code for table extraction from URL.
 - taxi_analysis.ipynb: The main analysis file containing all the Python code for data loading, descriptive statistics, the execution of the Welch's t-test, visualizations, and final conclusions.
 - sql_queries.txt: Contains the exact SQL script used for the data extraction phase.
