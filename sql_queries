@@ -1,0 +1,192 @@
+Paso 1.
+SELECT
+
+    cabs.company_name,
+
+    COUNT(trips.trip_id) AS trips_amount  -- Contar el número de viajes
+
+FROM
+
+    trips 
+
+INNER JOIN
+
+    cabs ON trips.cab_id = cabs.cab_id -- Unir tablas con cab_id
+
+WHERE
+
+    trips.start_ts::date IN ('2017-11-15', '2017-11-16') -- Filtrar solo los viajes que comenzaron los días 15 y 16 de noviembre de 2017
+
+GROUP BY
+
+    cabs.company_name
+
+ORDER BY
+
+    trips_amount DESC; -- Ordenar los resultados en orden descendente por cantidad de viajes
+
+
+
+Paso 2.
+
+SELECT
+
+    cabs.company_name,
+
+    COUNT(trips.trip_id) AS trips_amount  -- Contar el número de viajes
+
+FROM
+
+    trips 
+
+INNER JOIN
+
+    cabs ON trips.cab_id = cabs.cab_id -- Unir tablas con cab_id
+
+WHERE
+
+    trips.start_ts::date BETWEEN '2017-11-01' AND '2017-11-07' AND (
+
+        cabs.company_name LIKE '%Yellow%' OR cabs.company_name LIKE '%Blue%')-- Filtrar los viajes que se hicieron entre los días 1 y 7 de noviembre de 2017, y los taxis que contengan las palabras "yellow" o "blue"
+
+GROUP BY
+
+    cabs.company_name
+
+ORDER BY
+
+    trips_amount DESC; -- Ordenar los resultados en orden descendente por cantidad de viajes
+
+
+
+Paso 3.
+
+SELECT
+
+    -- 1. Clasificar las empresas usando la sentencia CASE y nombrar  el campo 'company'
+
+    CASE
+
+        WHEN cabs.company_name = 'Flash Cab' THEN 'Flash Cab'
+
+        WHEN cabs.company_name = 'Taxi Affiliation Services' THEN 'Taxi Affiliation Services'
+
+        ELSE 'Other' 
+
+    END AS company,
+
+    -- 2. Contar los viajes para cada grupo 
+
+    COUNT(trips.trip_id) AS trips_amount
+
+FROM
+
+    trips
+
+INNER JOIN
+
+    cabs ON trips.cab_id = cabs.cab_id -- 3. Unir datos de viajes con datos del taxi
+
+WHERE
+
+    trips.start_ts::date BETWEEN '2017-11-01' AND '2017-11-07'
+
+GROUP BY
+
+    company
+
+ORDER BY
+
+    trips_amount DESC; 
+
+
+
+Paso 4.
+
+SELECT
+
+    name,
+
+    neighborhood_id
+
+FROM
+
+    neighborhoods
+
+WHERE
+
+    name LIKE 'Loop' OR name LIKE '%Hare';
+
+
+
+Paso 5.
+
+SELECT
+
+    ts,
+
+    CASE
+
+        WHEN description LIKE '%rain%' OR description LIKE '%storm%' THEN 'Bad'
+
+        ELSE 'Good'
+
+    END AS weather_conditions
+
+        
+
+FROM
+
+    weather_records;
+
+
+
+Paso 6.
+
+WITH weather_categories AS (
+
+    SELECT
+
+        ts,
+
+        CASE
+
+            WHEN description LIKE '%rain%' OR description LIKE '%storm%' THEN 'Bad'
+
+            ELSE 'Good'
+
+        END AS weather_conditions
+
+    FROM
+
+        weather_records
+
+)
+
+SELECT
+
+    trips.start_ts,
+
+    weather_categories.weather_conditions,
+
+    trips.duration_seconds
+
+FROM
+
+    trips
+
+INNER JOIN
+
+    weather_categories ON trips.start_ts = weather_categories.ts
+
+WHERE
+
+    trips.pickup_location_id = 50 -- Viajes que comienzan con Loop
+
+    AND trips.dropoff_location_id = 63 -- Viajes que terminan en O'Hare
+
+    AND EXTRACT(DOW FROM trips.start_ts) = 6 -- Filtramos solo los viajes que ocurrieron en Sábado, DOW=6 
+
+ORDER BY
+
+    trip_id;
