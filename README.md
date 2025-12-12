@@ -4,7 +4,7 @@
 This project is a comprehensive Data Analysis and Business Intelligence initiative focused on understanding the variability of taxi trip durations on a critical high-demand route in Chicago: The Loop (Downtown) to O'Hare International Airport (ORD), specifically on Saturdays. The core objective was to statistically validate the influence of external factors—namely, rainy weather—on travel time, providing actionable insights for transportation companies to optimize service predictability and customer satisfaction.
 
 ## Project Goal & Hypothesis
---Goal: To determine if there is a statistically significant change in the average trip duration from the Loop to O'Hare when comparing Saturdays with good weather versus Saturdays with rain.
+- Goal: To determine if there is a statistically significant change in the average trip duration from the Loop to O'Hare when comparing Saturdays with good weather versus Saturdays with rain.
 
 - Hypotheses:
   - Null Hypothesis ($\text{H}_0$): The mean trip duration is the same on rainy Saturdays and good-weather Saturdays.
